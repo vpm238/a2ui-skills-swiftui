@@ -116,20 +116,13 @@ first_turn_fill_fields:
 You are a direct, honest thinking partner. ...
 ```
 
-The **skeleton** is the structural UI you want on screen in <100ms. Text fields bind to `/reply/<fieldName>` paths. The **fill_fields** are what the LLM writes — descriptions go into the LLM's instructions, accumulated values stream in via `updateDataModel` patches. See the [progressive-rendering RFC](https://github.com/vpm238/a2ui-progressive-rendering-rfc-rfc) for why this matters.
+The **skeleton** is the structural UI you want on screen immediately. Text fields bind to `/reply/<fieldName>` paths. The **fill_fields** are what the LLM writes — descriptions go into the LLM's instructions, accumulated values stream in via `updateDataModel` patches. See the [progressive-rendering RFC](https://github.com/vpm238/a2ui-progressive-rendering-rfc) for why this matters.
 
 ## LLM providers
 
-Shipped:
+`AnthropicLLMProvider` ships — hits `https://api.anthropic.com/v1/messages` directly over SSE. Your app supplies the API key.
 
-- `AnthropicLLMProvider` — hits `https://api.anthropic.com/v1/messages` directly. Uses Server-Sent Events for streaming. Your app needs the API key.
-
-Planned / easy to add:
-
-- `ProxyLLMProvider` — POSTs to a server endpoint you own (for API-key safety). Add by implementing `LLMProvider`.
-- `GeminiLLMProvider` — same protocol, different backend.
-
-Conform to `LLMProvider` and you can plug any LLM:
+Conform to `LLMProvider` and plug in any other backend (including your own proxy):
 
 ```swift
 struct MyLLMProvider: LLMProvider {
